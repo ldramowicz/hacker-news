@@ -1,0 +1,100 @@
+* {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+.header {
+  margin: 0px;
+  /*padding-bottom: 80px;*/
+  color: white;
+  background: #28a745;
+  /*text-align: center;*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  width: 100%;
+}
+
+.header h1 {
+  margin-top: 0px;
+}
+
+/*h1 {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}*/
+
+#userPreferences {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+#searchResults {
+  background: aqua;
+  margin: 0px auto;
+  width: 50%;
+  border-radius: 20px;
+  padding: 5px;
+}
+
+.photo {
+  margin: 5px 10px;
+  padding: 5px;
+  border-radius: 50%;
+  border: 1px solid gray;
+  background: gray;
+  width: 100px;
+  height: auto;
+}
+
+.name, .age, .catchphrase {
+  margin: 0px 10px;
+}
+
+.feedbackStrip{
+  margin-top: 15px;
+  visibility: hidden;
+}
+
+.makeVisible {
+  visibility: visible;
+}
+
+.media{
+  margin: 20px;
+  background-color: #f8f9fa;
+}
+
+.userInfoBtnContainer{
+  margin-top: 23px;
+}
+
+.userDialog{
+  width: auto;
+  position: absolute;
+  left: 400px;
+  border: solid 1px #55abce;
+  padding: 10px;
+  margin-top: 23px;
+}
+
+.feedbackText{
+  font-weight: 500;
+  font-size: large;
+}
+
+.labelText{
+  font-weight: 500;
+  font-size: large;
+}
+.formElements{
+  margin: 5px;
+}
+
+label {
+  margin-right: 10px;
+}

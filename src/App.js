@@ -1,12 +1,8 @@
 import React from "react";
-import $ from "jquery";
+import Comments from './components/Comments';
 import './App.css';
 
 const numOfTopStoriesToFetch = 10;
-
-// tmpSearchObj stores user's preferences before Filter button is clicked
-let stories2 = [];
-
 
 class App extends React.Component {
 
@@ -23,6 +19,9 @@ class App extends React.Component {
 
     componentDidMount() {
         this.setState({areStoriesLoading: true});
+
+        let tempStories = [];
+
         // fetch + API call
         fetch('https://hacker-news.firebaseio.com/v0/topstories.json')
             .then(results => results.json())
@@ -30,26 +29,22 @@ class App extends React.Component {
                 this.setState({topStoriesIDs: data.slice(0,numOfTopStoriesToFetch)})
                 //console.log("data = " + data.slice(0,numOfTopStoriesToFetch))
             })
-            .then(nextData => {
+            .then(() => {
                 let items = this.state.topStoriesIDs;
                 items.map(story => fetch('https://hacker-news.firebaseio.com/v0/item/' + story + '.json?print=pretty')
                     .then(results => results.json())
                     .then((data) => {
-                        //console.log("item = " + data.title);
-                        stories2.push(data);
-                        console.log("story = " + stories2);
+                        tempStories.push(data);
+                        //console.log("story = " + JSON.stringify(tempStories));
                     })
-                    .then(() => this.setState({stories: stories2, areStoriesLoading: false}))
+                    .then(() => this.setState({stories: tempStories, areStoriesLoading: false}))
                 )
             })
-
             .catch(error => this.setState({error, areStoriesLoading: false}));
     }
 
     render() {
-        const {areStoriesLoading, error, topStoriesIDs, stories} = this.state;
-        console.log("topStoriesIDs = " + topStoriesIDs);
-        console.log("stories = " + stories);
+        const {areStoriesLoading, error, stories} = this.state;
 
         // check for fetch errors and display them here
         if (error) {
@@ -65,17 +60,21 @@ class App extends React.Component {
         }
 
         return (<div id="App" className="App">
-            <div id="appTitle">
+            <div className="header">
+                <h1>Top 10 Hacker News Stories</h1>
+            </div>
+            <div>
                 {stories.map(story =>
                     <div className="card" key={story.id}>
                         <div className="card-body">
                             <h4 className="card-title"><a href={story.url} className="card-link text-dark" target="_new">{story.title}</a></h4>
-                            <h6 className="card-subtitle mb-2 text-muted">{story.score} points by {story.by}</h6>
-                            <a className="card-link" data-toggle="collapse" href={"#comments_"+story.id} aria-expanded="false" aria-controls={"#comments_"+story.id}>Comments</a>
+                            <h6 className="card-subtitle mb-2 text-muted">{story.score} {story.score === 1 ? "point" : "points"} by {story.by}</h6>
+
+                            <a className={"card-link" + (story.kids ? "" : " disabled")} data-toggle="collapse" href={"#comments_"+story.id} aria-expanded="false" aria-controls={"#comments_"+story.id}>Comments</a>
                         </div>
                         <div className="collapse" id={"comments_"+story.id}>
                             <div className="card card-body">
-                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                                <Comments storyKids={story.kids} key={story.id} />
                             </div>
                         </div>
                     </div>
