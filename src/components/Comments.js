@@ -19,12 +19,8 @@ class Comments extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        //console.log("next props = " + nextProps.storyKids);
-        //console.log("this props = " + this.props.storyKids);
-        if (this.props.storyKids !== nextProps.storyKids) {
-            console.log("New props!");
-            this.setState({propsReceived: nextProps.storyKids});
-        }
+        if (this.props.storyKids === nextProps.storyKids)
+            return null;
     }
 
     componentDidMount() {
@@ -52,7 +48,7 @@ class Comments extends React.Component {
     render() {
         const {areCommentsLoading, error, comments} = this.state;
 
-        console.log("comments = " + JSON.stringify(this.state.comments));
+        //console.log("comments = " + JSON.stringify(this.state.comments));
 
         // check for fetch errors and display them here
         if (error) {
@@ -70,7 +66,7 @@ class Comments extends React.Component {
         return (<div id="Comments">
             <ul className="list-group list-group-flush">
                 {comments.map(comment =>
-                    <li className="list-group-item" key={comment.id}>
+                    <li className="list-group-item li-bkg" key={comment.id}>
                         <div className="font-italic font-weight-bold">{comment.by}</div>
                         <div dangerouslySetInnerHTML={this.createMarkup(comment.text)} />
                     </li>)}
