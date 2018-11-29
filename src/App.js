@@ -1,19 +1,15 @@
 import React from "react";
-//import $ from "jquery";
+import $ from "jquery";
 import './App.css';
 
 const numOfTopStoriesToFetch = 10;
-const numOfTopCommentsToFetch = 20;
-const defaultAgeMin = 18;
-const defaultAgeMax = 90;
-const defaultGender = "any";
 
 // tmpSearchObj stores user's preferences before Filter button is clicked
 let stories2 = [];
-let warning = '';
 
 
 class App extends React.Component {
+
     constructor() {
         super();
 
@@ -22,21 +18,9 @@ class App extends React.Component {
             stories: [],
             areStoriesLoading: false,
             error: false,
-            searchObj: {
-                ageMin: defaultAgeMin,
-                ageMax: defaultAgeMax,
-                gender: defaultGender,
-            },
-            defaultSearchObj: {
-                ageMin: defaultAgeMin,
-                ageMax: defaultAgeMax,
-                gender: defaultGender,
-            },
-            gender: defaultGender,
-            showWarning: false,
         };
-        // Handler bindings
     }
+
     componentDidMount() {
         this.setState({areStoriesLoading: true});
         // fetch + API call
@@ -83,23 +67,22 @@ class App extends React.Component {
         return (<div id="App" className="App">
             <div id="appTitle">
                 {stories.map(story =>
-                <div key={story.id}>
-                    {story.title}
-                </div>
+                    <div className="card" key={story.id}>
+                        <div className="card-body">
+                            <h4 className="card-title"><a href={story.url} className="card-link text-dark" target="_new">{story.title}</a></h4>
+                            <h6 className="card-subtitle mb-2 text-muted">{story.score} points by {story.by}</h6>
+                            <a className="card-link" data-toggle="collapse" href={"#comments_"+story.id} aria-expanded="false" aria-controls={"#comments_"+story.id}>Comments</a>
+                        </div>
+                        <div className="collapse" id={"comments_"+story.id}>
+                            <div className="card card-body">
+                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                            </div>
+                        </div>
+                    </div>
                 )}
             </div>
         </div>)
     }
-
-
-    capitalizeFirstLetter(text1){
-        text1 = text1.toLowerCase()
-            .split(' ')
-            .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-            .join(' ');
-        return text1;
-    }
-    //Event Listeners
-
 }
+
 export default App;
